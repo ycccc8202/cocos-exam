@@ -52,3 +52,12 @@ Thumbs.db
 
 # Local scratch files
 /.tmp-q2/
+
+# Local scratch files (Q1 验证脚本/预览图)
+/.tmp-q1/
+
+# 调试截图，不随仓库提交
+/_dbg_*.png
+
+# Agent 工作目录
+/.workbuddy/
