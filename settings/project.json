@@ -8,8 +8,8 @@
   "group-list": [
     "default"
   ],
-  "design-resolution-width": 750,
-  "design-resolution-height": 1334,
+  "design-resolution-width": 720,
+  "design-resolution-height": 1280,
   "fit-width": true,
   "fit-height": false,
   "use-project-simulator-setting": false,

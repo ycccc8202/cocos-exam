@@ -43,17 +43,27 @@ export class Q2Level {
         ui.setAnchorPoint(0.5, 0.5);
         parent.addChild(ui);
 
+        // 可视区域：设计分辨率 720×1280 + fitWidth 时就是 720×1280；
+        // 遇到更高（长屏）或更方（平板）的屏幕，visibleRect 会随之变化，
+        // 顶部/底部这两行文字按可视高度贴边排布，任何比例下都不会跑出屏幕或被裁掉。
+        const vr = (cc as any).visibleRect;
+        const vw = vr ? vr.width : cc.winSize.width;
+        const vh = vr ? vr.height : cc.winSize.height;
+
         const title = Q2Level.labelNode('Title', '拔 针 · 收 集 金 币', 24, new cc.Color(255, 214, 120, 255));
-        title.setPosition(0, 480);
+        // 距屏幕顶边 160（1280 高时即 y=480）；屏幕比 16:9 更方时不让它继续往下压到结算底板
+        title.setPosition(0, Math.max(vh * 0.5 - 160, 480));
         ui.addChild(title);
 
         const count = Q2Level.labelNode('Count', '', 20, new cc.Color(255, 236, 180, 255));
-        count.setPosition(0, 440);
+        // 距顶边 200（1280 高时即 y=440），同样夹在结算底板上沿（420）之上
+        count.setPosition(0, Math.max(vh * 0.5 - 200, 440));
         ui.addChild(count);
 
         const hint = Q2Level.labelNode('Hint', '拔掉挡住金币的横针，再逐根拔左侧斜针放行；右侧斜针千万别拔', 15,
             new cc.Color(190, 205, 220, 255));
-        hint.setPosition(0, -440);
+        // 距底边 200（1280 高时即 y=-440），窄屏时不再往上顶到罐子上
+        hint.setPosition(0, Math.min(-vh * 0.5 + 200, -440));
         ui.addChild(hint);
 
         const result = Q2Level.labelNode('Result', '', 36, new cc.Color(255, 226, 130, 255));
@@ -76,9 +86,6 @@ export class Q2Level {
         const mask = new cc.Node('ResultMask');
         mask.setAnchorPoint(0.5, 0.5);
         const maskG = mask.addComponent(cc.Graphics);
-        const vr = (cc as any).visibleRect;
-        const vw = vr ? vr.width : cc.winSize.width;
-        const vh = vr ? vr.height : cc.winSize.height;
         // 四周各多铺 200，任何分辨率 / 黑边都不会露底
         maskG.fillColor = new cc.Color(6, 8, 14, 125);
         maskG.rect(-vw * 0.5 - 200, -vh * 0.5 - 200, vw + 400, vh + 400);
